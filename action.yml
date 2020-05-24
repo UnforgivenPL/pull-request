@@ -1,0 +1,62 @@
+name: "Pull request"
+description: "Create (or modify) a pull request."
+inputs:
+  source:
+    description: Name of an existing source branch.
+    required: true
+  target:
+    description: Name of an existing target branch (into which contents of the source branch are pulled). Defaults to repository's default branch.
+    required: false
+    default: '-'
+  repository:
+    description: Path to repository to make PR in.
+    required: true
+  token:
+    description: Auth token with enough privileges to create a PR in a given repository.
+    required: true
+  pr-title:
+    description: Title of the PR. Required if there is no existing, open PR between the two branches.
+    required: false
+    default: '-'
+  pr-body:
+    description: Body of the PR.
+    required: false
+    default: '-'
+  pr-draft:
+    description: Whether or not this is a draft PR. Defaults to `false`.
+    required: false
+    default: "false"
+  pr-assignees:
+    description: Comma-separated logins of users assigned to the PR.
+    required: false
+    default: '-'
+  pr-labels:
+    description: Comma-separated labels of the PR.
+    required: false
+    default: '-'
+  pr-milestone:
+    description: Number of the milestone the PR should be added to.
+    required: false
+    default: '-'
+  overwrite-strategy:
+    description: Either `success`, `change` or `fail` (default); describes what to do when an open PR already exists.
+    required: false
+    default: fail
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.source }}
+    - ${{ inputs.target }}
+    - ${{ inputs.repository }}
+    - ${{ inputs.token }}
+    - ${{ inputs.pr-title }}
+    - ${{ inputs.pr-body }}
+    - ${{ inputs.pr-draft }}
+    - ${{ inputs.pr-assignees }}
+    - ${{ inputs.pr-labels }}
+    - ${{ inputs.pr-milestone }}
+    - ${{ inputs.overwrite-strategy }}
+branding:
+  color: orange
+  icon: git-branch
