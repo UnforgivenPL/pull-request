@@ -69,6 +69,8 @@ begin
 
   puts 'all done; thank you!'
 
-rescue Github::Error::NotFound
+rescue Github::Error::NotFound => e
+  puts e.message
+  puts e.backtrace.inspect
   exit 404
 end
