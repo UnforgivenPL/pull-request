@@ -64,11 +64,14 @@ begin
   updates = {}
   [[:assignees, 7], [:labels, 8]].each { |attr, index| updates[attr] = ARGV[index] unless ARGV[index].nil? || ARGV[index].empty? || ARGV[index] == '-' }
   updates[:milestone] = ARGV[9] if ARGV[9] =~ /^\d+$/
-  github.issues.edit(updates.merge(user: user, repo: repository, issue_number: pr_number)) unless updates.empty?
+  github.issues.edit(updates.merge(user: user, repo: repository, number: pr_number)) unless updates.empty?
   puts "...updated #{updates.size} properties of the issue"
 
   puts 'all done; thank you!'
 
-rescue Github::Error::NotFound
+rescue Github::Error::NotFound => e
+  puts e.message
+  puts 'stack trace for reference:'
+  puts e.backtrace.inspect
   exit 404
 end
