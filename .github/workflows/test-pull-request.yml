@@ -1,0 +1,20 @@
+on:
+  push:
+    branches: [master]
+
+jobs:
+  test-pull-request:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create PR to test branch
+        uses: ./
+        with:
+          source: master
+          target: test-pr-target
+          repository: UnforgivenPL/pull-request
+          token: ${{ secrets.REPOSITORY_TOKEN }}
+          pr-title: This is a test PR from master
+          pr-body: "Feel free to merge this PR, but it should not be really needed. Like in, **not needed**."
+          pr-assignees: mikiolsz
+          overwrite-strategy: success
