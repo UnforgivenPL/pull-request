@@ -71,6 +71,7 @@ begin
 
 rescue Github::Error::NotFound => e
   puts e.message
+  puts 'stack trace for reference:'
   puts e.backtrace.inspect
   exit 404
 end
