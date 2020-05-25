@@ -37,7 +37,7 @@ begin
     pr_body = ARGV[5]
     pr_body = '' if pr_body == '-'
 
-    pr_draft = ARGV[6] == 'false'
+    pr_draft = ARGV[6] == 'true'
 
     created_pr = github.pulls.create(user: user, repo: repository, head: prefixed_source, base: target, title: ARGV[4], body: pr_body, draft: pr_draft)
     pr_number = created_pr.number
@@ -62,7 +62,7 @@ begin
 
   puts "setting properties of issue #{pr_number}..."
   updates = {}
-  [[:assignees, 7], [:labels, 8]].each { |attr, index| updates[attr] = ARGV[index] unless ARGV[index].nil? || ARGV[index].empty? || ARGV[index] == '-' }
+  [[:assignees, 7], [:labels, 8]].each { |attr, index| updates[attr] = ARGV[index].split(/\s*,\s*/) unless ARGV[index].nil? || ARGV[index].empty? || ARGV[index] == '-' }
   updates[:milestone] = ARGV[9] if ARGV[9] =~ /^\d+$/
   github.issues.edit(updates.merge(user: user, repo: repository, number: pr_number)) unless updates.empty?
   puts "...updated #{updates.size} properties of the issue"

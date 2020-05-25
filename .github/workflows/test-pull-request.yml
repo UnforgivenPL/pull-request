@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [master, 2-creating-pr-causes-404]
+    branches: [master, 8-issue-fields]
 
 jobs:
   test-pull-request:
