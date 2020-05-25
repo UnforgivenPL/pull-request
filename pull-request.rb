@@ -64,6 +64,8 @@ begin
   updates = {}
   [[:assignees, 7], [:labels, 8]].each { |attr, index| updates[attr] = ARGV[index].split(/\s*,\s*/) unless ARGV[index].nil? || ARGV[index].empty? || ARGV[index] == '-' }
   updates[:milestone] = ARGV[9] if ARGV[9] =~ /^\d+$/
+  # note: :assignee is deprecated in github api
+  updates[:assignee] = ARGV[7] unless ARGV[7].nil? || ARGV[7].empty? || ARGV[7] == '-' || ARGV[7].include?(',')
   github.issues.edit(updates.merge(user: user, repo: repository, number: pr_number)) unless updates.empty?
   puts "...updated #{updates.size} properties of the issue"
 
