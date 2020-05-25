@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [master, 8-issue-fields]
+    branches: [master]
 
 jobs:
   test-pull-request:
